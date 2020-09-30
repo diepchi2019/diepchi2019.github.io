@@ -19,7 +19,6 @@ We can imagine data streams like below image.
 source: atom.io
 
 A stream is a sequence of ongoing events ordered in time. When using stream, we need focus on 3 items:
-
 - Data
 - Error
 - The time when task completed.
@@ -48,23 +47,17 @@ X is an error
 **Advantages**
 
 - Providing tools for handling stream data allow filter (scan, take) or convert stream to another stream (map, flatMap, reduce) or merge many stream to one stream (combine, merge, zip...)  easy that not change status of original stream.
-
   ![Stream Filter](reactive-programming/stream_filter.png)
 
   ![Stream flatMap](reactive-programming/stream_flat_map.png)
 
 - Loose coupling of components
-
 - Coordinating concurrent asynchronous tasks
-
 - Thread safety
-
 - Improves user experience: The asynchronous nature of FRP means that whatever you program with it will offer a smoother, more responsive product for your users to interact with. 
-
 - Error handling in asynchronous become more easier. It separate logic and errors. 
 
 **Disadvantages**
-
 - Increased level of difficulty in reading and writing code. It is also complicated to write unit tests for such asynchronous code. Debugging the code is even more difficult.
 - Memory leak - when working in this way, it can be easy to handle subscriptions within an app or site incorrectly. This can lead to memory leakage which could end up seriously slowing things down for users.
 
@@ -82,16 +75,6 @@ And to the following components of **any application type**:
 - *Proxy servers, load balancers*
 - *Artificial intelligence, machine learning*
 - *Real-time data streaming*
-
-### How to apply Reactive Programming ###
-
-* Other guidelines
-
-### Sample application ###
-
-### Conclusion
-
-
 
 Reference:
 
