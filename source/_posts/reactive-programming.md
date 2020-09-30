@@ -11,11 +11,11 @@ In the short description:
 
 So what is the stream ?
 
-![Stream](stream.jpg)
+![Stream](reactive-programming/stream.jpg)
 
 We can imagine data streams like below image.
 
-![Data Stream](data_streams.gif)
+![Data Stream](reactive-programming/data_streams.gif)
 source: atom.io
 
 A stream is a sequence of ongoing events ordered in time. When using stream, we need focus on 3 items:
@@ -28,7 +28,7 @@ With synchronous, it's easy to determine these items but with asynchronous it's 
 
 **Function Reactive Programming**  has solved the problem for using a stream to transfer data and it can emit three different things : a value (of some type), an error, or a "completed" signal.
 
-![Reactive Programming](function_reactive_programming.png)
+![Reactive Programming](reactive-programming/function_reactive_programming.png)
 
 We capture these emitted events only **asynchronously**, by defining a function that will execute when a value is emitted, another function when an error is emitted, and another function when 'completed' is emitted. Sometimes these last two can be omitted and you can just focus on defining the function for values. The "listening" to the stream is called **subscribing**. The functions we are defining are observers. The stream is the subject (or "observable") being observed. This is precisely the [Observer Design Pattern](https://en.wikipedia.org/wiki/Observer_pattern).
 
@@ -49,9 +49,9 @@ X is an error
 
 - Providing tools for handling stream data allow filter (scan, take) or convert stream to another stream (map, flatMap, reduce) or merge many stream to one stream (combine, merge, zip...)  easy that not change status of original stream.
 
-  ![Stream Filter](stream_filter.png)
+  ![Stream Filter](reactive-programming/stream_filter.png)
 
-  ![Stream flatMap](stream_flat_map.png)
+  ![Stream flatMap](reactive-programming/stream_flat_map.png)
 
 - Loose coupling of components
 
