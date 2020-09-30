@@ -14,11 +14,17 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="Reactive programming is a programming paradigm oriented around data flows and the propagation of change. This means that it should be possible to express static or dynamic data flows with ease in the">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/08/31/reactive-programming/stream.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/08/31/reactive-programming/data_streams.gif">
+<meta property="og:image" content="http://yoursite.com/2020/08/31/reactive-programming/function_reactive_programming.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/31/reactive-programming/stream_filter.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/31/reactive-programming/stream_flat_map.png">
 <meta property="article:published_time" content="2020-08-31T04:18:11.000Z">
-<meta property="article:modified_time" content="2020-08-31T11:04:05.725Z">
+<meta property="article:modified_time" content="2020-09-30T08:27:38.836Z">
 <meta property="article:author" content="Nguyen Duc Ngoc">
 <meta property="article:tag" content="Programming">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/08/31/reactive-programming/stream.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -111,26 +117,68 @@
         <p><strong>Reactive programming</strong> <em>is a</em> <a href="https://en.wikipedia.org/wiki/Programming_paradigm" target="_blank" rel="noopener">programming paradigm</a> <em>oriented around</em> <a href="https://en.wikipedia.org/wiki/Dataflow_programming" target="_blank" rel="noopener">data flows</a> <em>and the propagation of change. This means that it should be possible to express static or dynamic data flows with ease in the programming languages used, and that the underlying execution model will automatically propagate changes through the data flow</em>.</p>
 <p>In the short description:</p>
 <p><strong>Reactive programming is programming with asynchronous data streams.</strong></p>
-<h3 id="When-apply-Reactive-Programing"><a href="#When-apply-Reactive-Programing" class="headerlink" title="When apply Reactive Programing"></a>When apply Reactive Programing</h3><ul>
-<li>Compare </li>
-<li>Configuration</li>
-<li>Dependencies</li>
-<li>Database configuration</li>
-<li>How to run tests</li>
-<li>Deployment instructions</li>
+<p>So what is the stream ?</p>
+<p><img src="/2020/08/31/reactive-programming/stream.jpg" alt="Stream"></p>
+<p>We can imagine data streams like below image.</p>
+<p><img src="/2020/08/31/reactive-programming/data_streams.gif" alt="Data Stream"><br>source: atom.io</p>
+<p>A stream is a sequence of ongoing events ordered in time. When using stream, we need focus on 3 items:</p>
+<ul>
+<li>Data</li>
+<li>Error</li>
+<li>The time when task completed.</li>
 </ul>
-<h3 id="How-to-apply-Reactive-Programing"><a href="#How-to-apply-Reactive-Programing" class="headerlink" title="How to apply Reactive Programing"></a>How to apply Reactive Programing</h3><ul>
-<li>Writing tests</li>
-<li>Code review</li>
+<p>With synchronous, it’s easy to determine these items but with asynchronous it’s quite difficult.</p>
+<p><strong>Function Reactive Programming</strong>  has solved the problem for using a stream to transfer data and it can emit three different things : a value (of some type), an error, or a “completed” signal.</p>
+<p><img src="/2020/08/31/reactive-programming/function_reactive_programming.png" alt="Reactive Programming"></p>
+<p>We capture these emitted events only <strong>asynchronously</strong>, by defining a function that will execute when a value is emitted, another function when an error is emitted, and another function when ‘completed’ is emitted. Sometimes these last two can be omitted and you can just focus on defining the function for values. The “listening” to the stream is called <strong>subscribing</strong>. The functions we are defining are observers. The stream is the subject (or “observable”) being observed. This is precisely the <a href="https://en.wikipedia.org/wiki/Observer_pattern" target="_blank" rel="noopener">Observer Design Pattern</a>.</p>
+<p>An alternative way of drawing that diagram is with ASCII, which we will use in some parts of this tutorial:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">--a---b-c---d---X---|-&gt;</span><br><span class="line"></span><br><span class="line">a, b, c, d are emitted values</span><br><span class="line">X is an error</span><br><span class="line">| is the &#39;completed&#39; signal</span><br><span class="line">---&gt; is the timeline</span><br></pre></td></tr></table></figure>
+
+<h3 id="Why-should-I-consider-adopting-RP"><a href="#Why-should-I-consider-adopting-RP" class="headerlink" title="Why should I consider adopting RP?"></a>Why should I consider adopting RP?</h3><p><strong>Advantages</strong></p>
+<ul>
+<li><p>Providing tools for handling stream data allow filter (scan, take) or convert stream to another stream (map, flatMap, reduce) or merge many stream to one stream (combine, merge, zip…)  easy that not change status of original stream.</p>
+<p><img src="/2020/08/31/reactive-programming/stream_filter.png" alt="Stream Filter"></p>
+<p><img src="/2020/08/31/reactive-programming/stream_flat_map.png" alt="Stream flatMap"></p>
+</li>
+<li><p>Loose coupling of components</p>
+</li>
+<li><p>Coordinating concurrent asynchronous tasks</p>
+</li>
+<li><p>Thread safety</p>
+</li>
+<li><p>Improves user experience: The asynchronous nature of FRP means that whatever you program with it will offer a smoother, more responsive product for your users to interact with. </p>
+</li>
+<li><p>Error handling in asynchronous become more easier. It separate logic and errors. </p>
+</li>
+</ul>
+<p><strong>Disadvantages</strong></p>
+<ul>
+<li>Increased level of difficulty in reading and writing code. It is also complicated to write unit tests for such asynchronous code. Debugging the code is even more difficult.</li>
+<li>Memory leak - when working in this way, it can be easy to handle subscriptions within an app or site incorrectly. This can lead to memory leakage which could end up seriously slowing things down for users.</li>
+</ul>
+<h3 id="When-apply-Reactive-Programming"><a href="#When-apply-Reactive-Programming" class="headerlink" title="When apply Reactive Programming"></a>When apply Reactive Programming</h3><p>Going reactive provides an elegant solution when it comes to specific types of <strong>high-load</strong> or <strong>multi-user applications</strong>:</p>
+<ul>
+<li><em>Social networks, chats</em></li>
+<li>Games</li>
+<li>Audio and video apps</li>
+</ul>
+<p>And to the following components of <strong>any application type</strong>:</p>
+<ul>
+<li><em>Server code that serves highly interactive UI elements</em></li>
+<li><em>Proxy servers, load balancers</em></li>
+<li><em>Artificial intelligence, machine learning</em></li>
+<li><em>Real-time data streaming</em></li>
+</ul>
+<h3 id="How-to-apply-Reactive-Programming"><a href="#How-to-apply-Reactive-Programming" class="headerlink" title="How to apply Reactive Programming"></a>How to apply Reactive Programming</h3><ul>
 <li>Other guidelines</li>
 </ul>
-<h3 id="Sample-application"><a href="#Sample-application" class="headerlink" title="Sample application"></a>Sample application</h3><ul>
-<li><p>Repo owner or admin</p>
-</li>
-<li><p>Other community or team contact</p>
-</li>
+<h3 id="Sample-application"><a href="#Sample-application" class="headerlink" title="Sample application"></a>Sample application</h3><h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>Reference:</p>
+<ul>
+<li><a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754#thinking-in-rp-with-examples" target="_blank" rel="noopener">https://gist.github.com/staltz/868e7e9bc2a7b8c1f754#thinking-in-rp-with-examples</a></li>
+<li><a href="https://developers.redhat.com/blog/2017/06/30/5-things-to-know-about-reactive-programming/" target="_blank" rel="noopener">https://developers.redhat.com/blog/2017/06/30/5-things-to-know-about-reactive-programming/</a></li>
+<li><a href="https://www.scnsoft.com/blog/java-reactive-programming" target="_blank" rel="noopener">https://www.scnsoft.com/blog/java-reactive-programming</a></li>
 </ul>
-<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3>
+
       
     </div>
     <footer class="article-footer">
@@ -138,7 +186,7 @@
         
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Programming/" rel="tag">Programming</a></li></ul>
 
-        <a data-url="http://yoursite.com/2020/08/31/reactive-programming/" data-id="ckeifb4jr0002y48q2iz8g9e6" class="article-share-link">Share</a>
+        <a data-url="http://yoursite.com/2020/08/31/reactive-programming/" data-id="ckfp4q83u0001qg8q8swa6vtm" class="article-share-link">Share</a>
         
       </div>
     </footer>
@@ -148,6 +196,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2020/09/04/azure-kubernetes/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          azure-kubernetes
+        
+      </div>
+    </a>
   
   
     <a href="/2020/08/28/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
@@ -172,6 +229,10 @@
       <ul>
         
           <li>
+            <a href="/2020/09/04/azure-kubernetes/">azure-kubernetes</a>
+          </li>
+        
+          <li>
             <a href="/2020/08/31/reactive-programming/">What is Reactive programming</a>
           </li>
         
@@ -188,7 +249,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Programming/" rel="tag">Programming</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AZ-300/" rel="tag">AZ 300</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AZ-301/" rel="tag">AZ 301</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-Kubernetes/" rel="tag">Azure Kubernetes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Programming/" rel="tag">Programming</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -197,7 +258,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">2</span></li></ul>
     </div>
   </div>
 
