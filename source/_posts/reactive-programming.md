@@ -8,7 +8,6 @@ tags: ['Programming']
 In the short description:
 
 **Reactive programming is programming with asynchronous data streams.**
-
 So what is the stream ?
 
 ![Stream](reactive-programming/stream.jpg)
@@ -50,7 +49,6 @@ X is an error
   ![Stream Filter](reactive-programming/stream_filter.png)
 
   ![Stream flatMap](reactive-programming/stream_flat_map.png)
-
 - Loose coupling of components
 - Coordinating concurrent asynchronous tasks
 - Thread safety
@@ -64,7 +62,6 @@ X is an error
 ### When apply Reactive Programming ###
 
 Going reactive provides an elegant solution when it comes to specific types of **high-load** or **multi-user applications**:
-
 - *Social networks, chats*
 - Games
 - Audio and video apps
